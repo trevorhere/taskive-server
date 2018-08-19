@@ -7,7 +7,7 @@
   "description": "Example on using create-react-app with a Node Express Backend",
   "author": {
     "name": "taskive",
-    "email": "trevoranthonylane@gmail.com",
+    "email": "trevoranthonylane@gmail.com"
   },
   "license": "MIT",
   "scripts": {
