@@ -6,9 +6,8 @@
   },
   "description": "Example on using create-react-app with a Node Express Backend",
   "author": {
-    "name": "Esau Silva",
-    "email": "esausilva85@gmail.com",
-    "url": "https://esausilva.com"
+    "name": "taskive",
+    "email": "trevoranthonylane@gmail.com",
   },
   "license": "MIT",
   "scripts": {
@@ -17,7 +16,7 @@
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "dev:server": "cd client && yarn build && cd .. && yarn start",
     "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.4",
