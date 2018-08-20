@@ -42,7 +42,7 @@ exports.Parser = ( body, userNumber) => {
        return null;
 
        case "lists":
-       console.log("list hit")
+       console.log("lists hit")
        viewListsNamesSMS(userNumber).then(results => { sendSMS(results, userNumber)});
        return null;
 
@@ -77,6 +77,9 @@ exports.Parser = ( body, userNumber) => {
        console.log("adding user");
        createUserSMS(secondCommand, thirdCommand, userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
+
+       case "fail":
+       return "you have failed, try again big boi lover";
 
 
        case "working":
@@ -116,7 +119,14 @@ let getCommand = (text) => {
         let message = text.split(" ");
         secondCommand = message[1];
         thirdCommand = message[2];
-        command = "adding user";
+        let command = "adding user";
+
+        if(secondCommand.includes('trevor') || secondCommand.includes('Trevor'))
+        {
+            command = "fail";
+        }
+
+
         return command;
     }    
 
@@ -127,7 +137,7 @@ let getCommand = (text) => {
       secondCommand = message[1];
     }
    
-    let command = message[0].toLowerCase();
+    command = message[0].toLowerCase();
     console.log('command: ' +  command)
     return command;
 }

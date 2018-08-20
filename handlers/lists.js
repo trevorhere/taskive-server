@@ -20,7 +20,7 @@ exports.testingDB = async (name, from) => {
 }
 
 exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
-    console.log('firstname: ' +firstName);
+    console.log('firstname: ' + firstName);
     console.log(`lastName ${lastName}`)
     console.log(`from ${from}`)
    
@@ -37,7 +37,7 @@ exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
     catch (err)
     {
         console.log(`error at createUsercanSMS: ${err}`)
-        return 'error adding ' + firstName;
+        return 'error adding user';
     }
 }
 
@@ -46,6 +46,10 @@ exports.selectListSMS = async (from, name) => {
     if(user == null)
     {
      return 'error finding account';
+    }
+    if(user.number != from)
+    {
+        return 'fail big boi lover';
     }
 
     for(let i = 0; i < user.lists.length; i++)
@@ -135,6 +139,10 @@ exports.removeListSMS = async (userNumber) => { // WORKING
         {
             return 'error finding account';
         }
+        if(user.number != userNumber)
+        {
+            return 'fail big boi lover';
+        }
 
         let listID =  null; //await getListIDFromUser(user, selectedList);
 
@@ -195,6 +203,10 @@ exports.viewListsNamesSMS = async (userNumber) => { // WORKING
         {
          return 'error finding account';
         }
+        if(user.number != userNumber)
+        {
+            return 'error finding account';
+        }
 
         let temp = [];
 
@@ -246,6 +258,10 @@ exports.addItemSMS = async (userNumber, item) => { // WORKING
             if(!user)
             {
                 return 'error finding account';
+            }
+            if(user.number != userNumber)
+            {
+                return 'fail big boi lover';
             }
 
             let listID = null;
@@ -314,6 +330,10 @@ exports.removeItemSMS = async (userNumber, item) => {  //WORKING
             {
                 return 'error finding account';
             }
+            if(user.number != userNumber)
+            {
+                return 'fail big boi lover';
+            }
 
             let listID = null;
 
@@ -381,6 +401,10 @@ exports.viewListsItemsSMS = async (userNumber) => { //WORKING
             if(!user)
             {
                 return 'error finding account';
+            }
+            if(user.number != userNumber)
+            {
+                return 'fail big boi lover';
             }
 
             let listID = null;
