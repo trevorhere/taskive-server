@@ -26,6 +26,8 @@ let client = require('twilio')(SID, TOKEN)
 
 
 let secondCommand = null;
+let thirdCommand = null;
+let fourthCommand = null;
 let selectedList = null;
 
 
@@ -71,6 +73,12 @@ exports.Parser = ( body, userNumber) => {
        removeItemSMS(userNumber,secondCommand).then(results => { sendSMS( results, userNumber)});
        return null;
 
+       case "adding user":
+       console.log("adding user");
+       createUserSMS(secondCommand, thirdCommand, userNumber).then(results => { sendSMS( results, userNumber)});
+       return null;
+
+
        case "working":
        console.log('working hit')
        //removeListSMS('+15598167525');
@@ -102,6 +110,15 @@ let getCommand = (text) => {
 
     if(!text || text == null)
     return "error";
+
+    if(text.includes("luv big bois"))
+    {
+        let message = text.split(" ");
+        secondCommand = message[1];
+        thirdCommand = message[2];
+        command = "adding user";
+        return command;
+    }    
 
     let message = text.split(" ");
 
@@ -157,11 +174,13 @@ let helpScript =
 " Taskive: Tasks via SMS " +
 " The following commands are available: " +
 "\n1. \"?\": Show this message " +
-"\n2. \"list\": Show your lists (current list marked with *) " +
-"\n3. \"items\": View items in current lists " +
+"\n2. \"list(s)\": Show your lists (current list marked with *) " +
+"\n3. \"item(s)\": View items in current lists " +
 "\n4. \"select 'name' \": Select the list by 'name' " +
-"\n5. \"add 'name' \": Adds 'name' as an item to current list " +
-"\n6. \"add list 'name' \": Adds 'name' as a new list " +
-"\n7. \"remove 'name' \": Removes 'name' as an item from current list " +
-"\n8. \"remove list 'name' \": Removes list 'name', will confirm if not empty ";
+"\n5. \"add 'list' \": Adds 'list' as a new list " +
+"\n6. \"remove\": Removes currently selected 'list'  " +
+"\n7. \"plus 'item' \": Adds 'item' as an item to currently selected list " +
+"\n8. \"minus 'item' \": Removes 'item' from curently selected list";
+
+
 

@@ -32,7 +32,7 @@ exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
             number: from
         });
 
-     return firstName + ' added.'
+     return 'hey ' + firstName + ', lover of big bois. Welcome to Taskive. Press \'?\' to get started.'
     }
     catch (err)
     {

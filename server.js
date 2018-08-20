@@ -41,6 +41,11 @@ app.post('/sms', (req, res) => {
   
 });
 
+app.get('/', (req, res) => {
+  res.send('hello world');
+});
+
+
 app.get('/api/test', (req, res) => {
   console.log("/api/test hit")
   const twiml = new MessagingResponse();
