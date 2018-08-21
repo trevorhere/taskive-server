@@ -43,13 +43,14 @@ exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
 
 exports.selectListSMS = async (from, name) => {
     let user = await getUserFromDB(from);
-    if(user == null)
+    if(!user)
     {
      return 'error finding account';
     }
+
     if(user.number != from)
     {
-        return 'fail big boi lover';
+        return 'error finding account';
     }
 
     for(let i = 0; i < user.lists.length; i++)
@@ -74,6 +75,12 @@ exports.createListSMS = async (name, userNumber) => { // WORKING
     {
         let result = null;
         let userID = await getUserIDFromDB(userNumber);
+        if(!userId)
+        {
+            return 'error finding account';
+        }
+
+
         console.log('userID: ' + userID);
         User.findById(userID, (err, user) => {
             if(err)
@@ -133,16 +140,22 @@ exports.removeListSMS = async (userNumber) => { // WORKING
 
     try 
     {   
-        let user = await getUserFromDB(userNumber);
-        let userID = user._id;
-        if(!user)
-        {
-            return 'error finding account';
-        }
-        if(user.number != userNumber)
-        {
-            return 'fail big boi lover';
-        }
+        let userID = null;
+            let user = await getUserFromDB(userNumber);
+            
+            if(user)
+            {
+                 userID = user._id;
+            }
+            else
+            {
+                return 'error finding account';
+            }
+
+            if(user.number != userNumber)
+            {
+                return 'error finding account';
+            }
 
         let listID =  null; //await getListIDFromUser(user, selectedList);
 
@@ -199,10 +212,11 @@ exports.viewListsNamesSMS = async (userNumber) => { // WORKING
     {
         console.log("view lists names hit");
         let user = await getUserFromDB(userNumber);
-        if(user == null)
+        if(!user)
         {
          return 'error finding account';
         }
+
         if(user.number != userNumber)
         {
             return 'error finding account';
@@ -253,15 +267,21 @@ exports.addItemSMS = async (userNumber, item) => { // WORKING
     {  
         try
         {
+            let userID = null;
             let user = await getUserFromDB(userNumber);
-            let userID = user._id;
-            if(!user)
+            
+            if(user)
+            {
+                 userID = user._id;
+            }
+            else
             {
                 return 'error finding account';
             }
+
             if(user.number != userNumber)
             {
-                return 'fail big boi lover';
+                return 'error finding account';
             }
 
             let listID = null;
@@ -324,15 +344,21 @@ exports.removeItemSMS = async (userNumber, item) => {  //WORKING
     {  
         try
         {
+            let userID = null;
             let user = await getUserFromDB(userNumber);
-            let userID = user._id;
-            if(!user)
+           
+            if(user)
+            {
+                userID = user._id;
+            } 
+            else
             {
                 return 'error finding account';
             }
+
             if(user.number != userNumber)
             {
-                return 'fail big boi lover';
+                return 'error finding account';
             }
 
             let listID = null;
@@ -396,15 +422,21 @@ exports.viewListsItemsSMS = async (userNumber) => { //WORKING
     {  
         try
         {
+            let userID = null;
             let user = await getUserFromDB(userNumber);
-            let userID = user._id;
-            if(!user)
+            
+            if(user)
+            {
+                 userID = user._id;
+            }
+            else
             {
                 return 'error finding account';
             }
+
             if(user.number != userNumber)
             {
-                return 'fail big boi lover';
+                return 'error finding account';
             }
 
             let listID = null;
