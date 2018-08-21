@@ -144,8 +144,6 @@ let getCommand = (text) => {
         thirdCommand = message[2];
         let command = "adding user";
 
- 
-
         return command;
     }    
 
@@ -153,8 +151,10 @@ let getCommand = (text) => {
 
     if(message.length > 1)
     {
-      secondCommand = message[1];
+      message.shift();  
+      secondCommand = message.join(" ");
     }
+
    
     command = message[0].toLowerCase();
     console.log('command: ' +  command)
