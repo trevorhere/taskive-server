@@ -19,10 +19,10 @@ exports.testingDB = async (name, from) => {
     }
 }
 
-exports.createUserSMS = async (firstName, lastName, userNumber) => { // WORKING
-    console.log('firstname: ' + firstName);
-    console.log(`lastName ${lastName}`)
-    console.log(`from ${userNumber}`)
+exports.createUserSMS = async (firstName, lastName, userNumber) => { 
+    // console.log(`firstname: ${firstName}`);
+    // console.log(`lastName ${lastName}`);
+    // console.log(`from ${userNumber}`);
    
     try 
     {
@@ -37,40 +37,52 @@ exports.createUserSMS = async (firstName, lastName, userNumber) => { // WORKING
     catch (err)
     {
         console.log(`error at createUsercanSMS: ${err}`)
-        return 'error adding user';
+        return 'error creating account';
     }
 }
 
 exports.selectListSMS = async (userNumber, name) => {
-    let user = await getUserFromDB(userNumber);
-    if(!user)
+    try
     {
-     return 'error finding account';
-    }
-
-    if(user.number != userNumber)
-    {
-       return 'error finding account';
-    }
-
-    for(let i = 0; i < user.lists.length; i++)
-    { 
-     console.log('user.lists[' + i + ']: ' + user.lists[i]);
-     let list = await List.findById(user.lists[i]);
-     if(list)
-     {
-        if(list && list.listName == name)
+        let user = await getUserFromDB(userNumber);
+        if(!user)
         {
-           Parser.setSelectedList(name);
-           return name + ' selected';
-        } 
-     }
-    }
+            return 'error finding account';
+        }
 
-    return name + ' not found.'
+        if(user.number != userNumber)
+        {
+            return 'error finding account';
+        }
+
+        for(let i = 0; i < user.lists.length; i++)
+        { 
+            //console.log('user.lists[' + i + ']: ' + user.lists[i]);
+            let list = await List.findById(user.lists[i]);
+            if(list)
+            {
+                if(list && list.listName == name)
+                {
+                Parser.setSelectedList(name);
+                return name + ' selected';
+                } 
+            }
+            else
+            {
+                return 'error selecting list';
+            }
+        }
+
+        return name + ' not found.'
+    }
+    catch (err)
+    {
+        console.log(`error at selectListsSMS: ${err}`)
+        return 'error selecting list';
+    }
 }
 
-exports.createListSMS = async (name, userNumber) => { // WORKING
+exports.createListSMS = async (name, userNumber) => { 
     try 
     {
         let result = null;
@@ -125,11 +137,11 @@ exports.createListSMS = async (name, userNumber) => { // WORKING
     catch (err)
     {
         console.log(`error at createListsSMS: ${err}`)
-        return 'error adding ' + name;
+        return 'error adding list: ' + name;
     }
 }
 
-exports.removeListSMS = async (userNumber) => { // WORKING
+exports.removeListSMS = async (userNumber) => { 
    let selectedList =  Parser.getSelectedList();
    if(selectedList == null)
    {
@@ -195,7 +207,6 @@ exports.removeListSMS = async (userNumber) => { // WORKING
         Parser.setSelectedList(null);
         return selectedList + " removed.";
 
-
     }
     catch (err)
     {
@@ -206,60 +217,69 @@ exports.removeListSMS = async (userNumber) => { // WORKING
 
 }
 
-exports.viewListsNamesSMS = async (userNumber) => { // WORKING
-    let selectedList =  Parser.getSelectedList();
-    try 
-    {
-        console.log("view lists names hit");
-        let user = await getUserFromDB(userNumber);
-        if(!user)
+exports.viewListsNamesSMS = async (userNumber) => { 
+        let selectedList = getSelectedList();
+        if(!selectedList)
         {
-         return 'error finding account';
+            return "please select a list before adding list items"
+        }
+        else
+        {  
+            try 
+            {
+                console.log("view lists names hit");
+                let user = await getUserFromDB(userNumber);
+                if(!user)
+                {
+                return 'error finding account';
+                }
+
+                if(user.number != userNumber)
+                {
+                    return 'error finding account';
+                }
+
+                let temp = [];
+
+            for(let i = 0; i < user.lists.length; i++)
+            { 
+            console.log('user.lists[' + i + ']: ' + user.lists[i]);
+            let list = await List.findById(user.lists[i]);
+            if(list)
+            {
+                        if(selectedList != null && selectedList == list.listName)
+                        {
+                            temp.push(list.listName + " *");
+                        }
+                        else
+                        {
+                            temp.push(list.listName);
+                        }
+            }
+            else
+            {
+                return 'error viewing lists';
+            }
         }
 
-        if(user.number != userNumber)
+        let final =  "Lists: \n" + temp.join('\n');
+        console.log('final: ' + final);
+        return final;
+
+        } 
+        catch (err)
         {
-            return 'error finding account';
+            console.log('error in viewListNamesSMS: ' + err);
+            return 'error viewing lists';
         }
-
-        let temp = [];
-
-     for(let i = 0; i < user.lists.length; i++)
-     { 
-      console.log('user.lists[' + i + ']: ' + user.lists[i]);
-      let list = await List.findById(user.lists[i]);
-      if(list)
-      {
-                if(selectedList != null && selectedList == list.listName)
-                 {
-                     temp.push(list.listName + " *");
-                 }
-                 else
-                 {
-                    temp.push(list.listName);
-                 }
-      } 
-  }
-
-  let final =  "Lists: \n" + temp.join('\n');
-  console.log('final: ' + final);
-  return final;
-
-} 
-catch (err)
-{
-    console.log('error in viewListNamesSMS: ' + err);
-    return 'error view lists';
-}
-
+    }
     
 }
 
-exports.addItemSMS = async (userNumber, item) => { // WORKING
-    console.log('add item hit');
+exports.addItemSMS = async (userNumber, item) => { 
+    // console.log('add item hit');
     let selectedList = Parser.getSelectedList();
-    console.log('selectedList: ' + selectedList);
-    if(selectedList == null)
+    if(!selectedList)
     {
         return "please select a list before adding list items"
     }
@@ -333,10 +353,10 @@ exports.addItemSMS = async (userNumber, item) => { // WORKING
     }
 }
 
-exports.removeItemSMS = async (userNumber, item) => {  //WORKING
+exports.removeItemSMS = async (userNumber, item) => { 
     let selectedList = Parser.getSelectedList();
     console.log('selectedList: ' + selectedList);
-    if(selectedList == null)
+    if(!selectedList)
     {
         return "please select a list before removing list items"
     }
@@ -411,10 +431,10 @@ exports.removeItemSMS = async (userNumber, item) => {  //WORKING
     }
 }
 
-exports.viewListsItemsSMS = async (userNumber) => { //WORKING
+exports.viewListsItemsSMS = async (userNumber) => { 
     let selectedList = Parser.getSelectedList();
     console.log('selectedList: ' + selectedList);
-    if(selectedList == null)
+    if(!selectedList)
     {
         return "please select a list before viewing list items"
     }
@@ -599,4 +619,14 @@ let getId = (lists) =>
                return lists[i]._id;
            }
        }
+}
+
+let getSelectedList = () => {
+  let selectedList = Parser.getSelectedList();
+  if(selectedList)
+  {
+    return selectedList;
+  }
+
+  return null;
 }
