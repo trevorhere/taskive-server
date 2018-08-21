@@ -75,7 +75,7 @@ exports.createListSMS = async (name, userNumber) => { // WORKING
     {
         let result = null;
         let userID = await getUserIDFromDB(userNumber);
-        if(!userId)
+        if(!userID)
         {
             return 'error finding account';
         }
