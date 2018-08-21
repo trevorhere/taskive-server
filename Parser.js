@@ -151,12 +151,16 @@ let getCommand = (text) => {
 
     if(message.length > 1)
     {
+      command = message[0].toLowerCase();
       message.shift();  
       secondCommand = message.join(" ");
     }
+    else
+    {
+     command = message[0].toLowerCase();
+    }
 
    
-    command = message[0].toLowerCase();
     console.log('command: ' +  command)
     return command;
 }
