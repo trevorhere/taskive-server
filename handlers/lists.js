@@ -19,17 +19,17 @@ exports.testingDB = async (name, from) => {
     }
 }
 
-exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
+exports.createUserSMS = async (firstName, lastName, userNumber) => { // WORKING
     console.log('firstname: ' + firstName);
     console.log(`lastName ${lastName}`)
-    console.log(`from ${from}`)
+    console.log(`from ${userNumber}`)
    
     try 
     {
       User.create({
             firstName: firstName,
             lastName: lastName,
-            number: from
+            number: userNumber
         });
 
      return 'hey ' + firstName + ', Welcome to Taskive. Press \'?\' to get started.'
@@ -41,14 +41,14 @@ exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
     }
 }
 
-exports.selectListSMS = async (from, name) => {
-    let user = await getUserFromDB(from);
+exports.selectListSMS = async (userNumber, name) => {
+    let user = await getUserFromDB(userNumber);
     if(!user)
     {
      return 'error finding account';
     }
 
-    if(user.number != from)
+    if(user.number != userNumber)
     {
        return 'error finding account';
     }
