@@ -32,7 +32,7 @@ exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
             number: from
         });
 
-     return 'hey ' + firstName + ', lover of big bois. Welcome to Taskive. Press \'?\' to get started.'
+     return 'hey ' + firstName + ', Welcome to Taskive. Press \'?\' to get started.'
     }
     catch (err)
     {
@@ -50,7 +50,7 @@ exports.selectListSMS = async (from, name) => {
 
     if(user.number != from)
     {
-        return 'error finding account';
+       return 'error finding account';
     }
 
     for(let i = 0; i < user.lists.length; i++)

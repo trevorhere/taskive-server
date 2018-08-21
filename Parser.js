@@ -114,7 +114,7 @@ let getCommand = (text) => {
     if(!text || text == null)
     return "error";
 
-    if(text.includes("luv big bois"))
+    if(text.includes("create"))
     {
         let message = text.split(" ");
         secondCommand = message[1];
