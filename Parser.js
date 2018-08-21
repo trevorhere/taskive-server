@@ -78,6 +78,11 @@ exports.Parser = ( body, userNumber) => {
        createUserSMS(secondCommand, thirdCommand, userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
 
+       case "new":
+       console.log("new");
+       addNewUserTwilio(userNumber);
+       return 'Thanks for trying out taskive, we\'ll call you shortly to verify your phone number';
+
        case "fail":
        return "you have failed, try again big boi lover";
 
@@ -109,23 +114,37 @@ exports.setSelectedList = (newList) => {
     selectedList = newList;
 }
 
+let addNewUserTwilio = async (userNumber) => {
+    client.validationRequests
+      .create({
+         friendlyName: userNumber,
+         phoneNumber: userNumber
+       })
+      .then(validation_request => {
+          console.log('VR length: ' + validation_request.length);
+          for(let i = 0; i < validation_request.length; i ++)
+          {
+              console.log( i + ': ' + validation_request[i]);
+          }
+          console.log('validation code: ' + validation_request.friendly_name);
+           sendSMS("You will be called shortly. VALIDATION CODE: " + validation_request.validation_code, userNumber)
+        })
+      .done();
+}
+
 let getCommand = (text) => {
 
     if(!text || text == null)
     return "error";
 
-    if(text.includes("create"))
+    if(text.includes("create") || text.includes("Create"))
     {
         let message = text.split(" ");
         secondCommand = message[1];
         thirdCommand = message[2];
         let command = "adding user";
 
-        if(secondCommand.includes('trevor') || secondCommand.includes('Trevor'))
-        {
-            command = "fail";
-        }
-
+ 
 
         return command;
     }    

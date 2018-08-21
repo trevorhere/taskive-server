@@ -7,11 +7,13 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     firstName: {
-        type: String
+        type: String,
+        required: true
        
     },
     lastName: {
-        type: String
+        type: String,
+        required: true
        
     },
     lists: [{
