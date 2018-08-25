@@ -17,10 +17,6 @@ let client = require('twilio')(SID, TOKEN)
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-
-// Where SMS are recieved. 
-// From here, parse body, run command in body, return result
 app.post('/sms', (req, res) => {
   console.log("/sms hit")
   const twiml = new MessagingResponse();
@@ -63,16 +59,11 @@ app.get('/api/test', (req, res) => {
 });
 
 
-// API calls
-app.get('/api/hello', (req, res) => {
-  res.send({ express: 'Hello From Express' });
-});
-
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
   app.use(express.static(path.join(__dirname, 'client/build')));
 
-  // Handle React routing, return all requests to React app
+  // Handle React routing, retugit rn all requests to React app
   app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
@@ -80,24 +71,10 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(bodyParser.json())
 
-
-
-app.get('/api/cat-facts', (req,res) => {
-  fetch('https://cat-fact.herokuapp.com/facts')
-  .then(resp => resp.json())
-  .then(resp => {
-    console.log("catfacts: " + resp)
-})
-})
-
 app.post('/api/send', (req, res) => {
-
   if(!SID || !TOKEN) {
     return res.json({message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.'})
   }
-
-
-
 
   let client = require('twilio')(SID, TOKEN)
 
