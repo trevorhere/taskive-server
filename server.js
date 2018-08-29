@@ -13,9 +13,14 @@ const port = process.env.PORT || 5000;
 let SID =  process.env.TWILIO_SID;
 let TOKEN = process.env.TWILIO_TOKEN;
 let SENDER =   process.env.TWILIO_SENDER;
-let client = require('twilio')(SID, TOKEN)
+let client = require('twilio')(SID, TOKEN);
 
+let listRoutes = require('./routes/lists');
+
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/api/lists', listRoutes);
 
 app.post('/sms', (req, res) => {
   console.log("/sms hit")
@@ -69,7 +74,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.use(bodyParser.json())
 
 app.post('/api/send', (req, res) => {
   if(!SID || !TOKEN) {

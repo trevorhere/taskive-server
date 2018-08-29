@@ -621,12 +621,12 @@ let getId = (lists) =>
        }
 }
 
-let getSelectedList = () => {
-  let selectedList = Parser.getSelectedList();
-  if(selectedList)
-  {
-    return selectedList;
-  }
+// let getSelectedList = () => {
+//   let selectedList = Parser.getSelectedList();
+//   if(selectedList)
+//   {
+//     return selectedList;
+//   }
 
-  return null;
-}
+//   return null;
+// }
