@@ -1,5 +1,39 @@
 body {
+  background-color: whitesmoke;
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+/*  Nav */
+
+.navbar {
+  font-weight: 1rem;
+}
+
+.navbar a {
+  font-weight: bold;
+  color:white;
+}
+
+.navbar a:hover {
+  color:white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.navbar-brand >  img {
+  display: inline-block;
+  width: 30px;
+  margin: 5px;
+  border-radius: 2px;
+}
+
+ul.nav.navbar-nav li {
+  margin: 0 0.5rem;
+}
+
+.onboarding > .navbar {
+  background: linear-gradient(225deg, #50ea71 0%, #97bdff 100%);
+  background-size: 100% 100%;
 }

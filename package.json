@@ -1,10 +1,10 @@
 {
-  "name": "example-create-react-app-express",
+  "name": "taskive",
   "version": "1.0.0",
   "engines": {
     "node": "8.11.3"
   },
-  "description": "Example on using create-react-app with a Node Express Backend",
+  "description": "",
   "author": {
     "name": "taskive",
     "email": "trevoranthonylane@gmail.com"
